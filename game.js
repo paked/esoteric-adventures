@@ -5,9 +5,10 @@ function preload() {
 }
 
 function create() {
-    console.log("creating...")
+    game.stage.backgroundColor = '#72C257';
 }
 
 function update() {
+    game.backgroundColor = '#ff0000';
     console.log("updating...")
 }
