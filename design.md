@@ -1,5 +1,5 @@
 - A 2d platformer where you collect stars to build your spirit and navigate around the world. 
-- Eserteric Adventures - A satirical tribute to Rudolf Steiner 
+- Esoteric Adventures - A satirical tribute to Rudolf Steiner 
 - Logos are enemies.
 - Travelling through a forest.
 - Mining corporation taking down forest .
