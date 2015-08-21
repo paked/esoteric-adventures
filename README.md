@@ -9,14 +9,13 @@ You play as a hippie who has travelled to the Amazon Rainforest in the search of
 A level is one unit of the game. One level is represented by a group of foresters chopping down a forest and a boss, which graphically are modelled after a big corporations logo. 
 
 # Combat
-## Forester Battles
-The majority of battles you undertake as a player will be with foresters, as these progress you through a level. These battles are short engagements, you win them by simply jumping onto the head of the forester. When a forester “dies” his body ejects its “spirit shards”, as the player you have to tap on these spirit shards in order to have ammunition for when you have the boss.
+## Low level Battles
+The majority of battles you undertake as a player will be with the workers of thecorporations, as these progress you through a level. These battles are short engagements, you win them by simply jumping onto the head of the worker. When a worker “dies” his body ejects its “spirit shards”, as the player you have to tap on these spirit shards in order to have ammunition for when you have the boss. These workers fight against you by shooting 'the spirit of the right side of the force' in shards at you causing your spirit which you have gained to progress through the level to diminish slowly with each hit. The difficulty of the low level enemies differs depending on which corporation they are associated to.
 
 ## Boss Battles
 In boss battles a player uses the spirit shards gained from putting the foresters(low-level enemies) to the left side of the force to defeat the boss. The boss meanwhile shoots ‘anti-spirit’ shards which cause the loss of spirit gained when shot at the player, eventually leading to the player having to start the level again. 
 
 # Art
 Currently we are going to create pixel art inspired by Quest of Ezra.
-
 # Sound
 There have been talks of opening up the good old DAW and writing out a nice lute tune. Who knows. This will probably be filled with something highly hippie.
