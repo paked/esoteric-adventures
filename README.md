@@ -1,5 +1,5 @@
 # Esoteric Adventures
-by Rafe, Sam and Harrison
+### by Rafe, Sam and Harrison
 ===
 
 # Player
