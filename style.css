@@ -1,0 +1,10 @@
+html, body{
+padding: 0;
+margin: 0;}
+h1,h2,h3,h4 {
+text-align: center;
+font-family: "Comic Sans MS", cursive, sans-serif;
+}
+.game {
+text-align:center;
+}
