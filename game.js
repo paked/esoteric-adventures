@@ -37,7 +37,8 @@ function collectSpirits(player, spirit){
     score += 1;
     spirit.kill();
     spirittext.text = 'Spirits: ' + score;
-    
+    var s = shards.create(0,0,'shard');
+    s.kill();
 }
 function gameOver(){
     var t = game.add.text(0,0, 'Game Over', style);
@@ -124,19 +125,18 @@ function create() {
     shards = game.add.physicsGroup();
     shards.enableBody = true;
     shards.setAll('body.allowGravity',false);
-
-    shards.createMultiple(10, 'shard');
     var space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     space_key.onDown.add(fireShard);
 
 }
 function fireShard() {
     var shard  = shards.getFirstExists(false);
-    if(shard) {
+    if(shard && score != 0) {
         shard.reset(player.x,player.y, + 8);
         shard.body.velocity.x = 300;
         shard.body.allowGravity = false;
-
+        score -= 1
+    spirittext.text = 'Spirits: ' + score;
    }
 }
 
