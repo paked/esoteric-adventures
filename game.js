@@ -30,11 +30,12 @@ function create() {
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.bounce.y = 0.05;
     player.body.collideWorldBounds = true;
-enemy = game.add.sprite(0,0,'enemy');
-game.physics.arcade.enable(enemy);
-enemy.body.velocity.x = 100;
-    enemy.body.collideWorldBounds = true;
 moveTime = game.time.now + 750;
+enemies = this.add.physicsGroup();
+enemies.create(200, 200,'enemy');
+enemies.create(450,350,'enemy');
+enemies.setAll('body.velocity.x', 100);
+enemies.setAll('body.collideWorldBounds', true);
 
 platforms = this.add.physicsGroup();
 platforms.create(100, 300, 'platform')
@@ -71,7 +72,8 @@ function update() {
  
     console.log("updating...")
 if(game.time.now >= moveTime ){
-enemy.body.velocity.x *= -1;
+enemies.multiplyAll('body.velocity.x',-1)
+
 moveTime = game.time.now + 750;
 }
 }
