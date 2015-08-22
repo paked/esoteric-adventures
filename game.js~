@@ -107,20 +107,15 @@ function create() {
     game.time.events.add(Phaser.Timer.SECOND, Time, this);
     shards = game.add.physicsGroup();
     shards.enableBody = true;
-    shards.setAll('body.allowGravity',false);
-
     shards.createMultiple(10, 'shard');
     var space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    space_key.onDown.add(fireShard);
 
 }
 function fireShard() {
     var shard  = shards.getFirstExists(false);
     if(shard) {
-        shard.reset(player.x,player.y, + 8);
+        shard.reset(player.x, player.y + 8);
         shard.body.velocity.x = 300;
-        shard.body.allowGravity = false;
-
     }
 }
 
@@ -138,6 +133,9 @@ function update() {
     }
     if(cursors.up.isDown &&(player.body.touching.down || player.body.onFloor())){
         player.body.velocity.y = -350;
+    }
+    if(space_key.isDown){
+        fireShard();
     }
    
     console.log("updating...")
