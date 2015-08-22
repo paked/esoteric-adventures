@@ -107,7 +107,6 @@ function create() {
     // This will scale it up to the correct resolution on mobile devices
     game.time.events.add(Phaser.Timer.SECOND*150, gameOver, this);
     game.time.events.add(Phaser.Timer.SECOND, Time, this);
-
 }
 
 function update() {
