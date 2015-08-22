@@ -14,7 +14,8 @@ var enemy;
 var platforms;
 var moveTime = 0;
 var style = {font: "65px Arial", fill: "#fff", align:"center"};
-
+var timertext;
+var timercount = 150;
 function preload() {
     console.log("preloading...")
     game.load.image('player', 'assets/player.png')
@@ -27,8 +28,17 @@ function gameOver(){
     t.anchor.set(0.5);
     t.x = game.width/2;
     t.y = game.height/2;
+    game.time.events.add(Phaser.Timer.SECOND*5, gameReload, this);
 }
-
+function gameReload(){
+    location.reload()
+}
+function Time(){
+ timertext.text = 'Timer: ' + timercount;
+timercount -= 1;
+ console.log('Hello')
+ game.time.events.add(Phaser.Timer.SECOND, Time, this);
+}
 collideEnemy = function (player, enemy) {
 if (enemy.body.touching.up) {
 enemy.kill();
@@ -39,7 +49,7 @@ console.log("killing")
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.physics.arcade.gravity.y = 500;
-
+    timertext = game.add.text(32,32, 'Timer: ' + timercount);
     player = game.add.sprite(0, 0, 'player');
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.bounce.y = 0.05;
@@ -66,7 +76,8 @@ platforms.setAll('body.immovable', true);
     // whenever you create a sprite or use some sort of asset
     // remember to call: `MYASSET.scale.setTo(scaleRatio, scaleRatio);`
     // This will scale it up to the correct resolution on mobile devices
-    game.time.events.add(Phaser.Timer.SECOND*300, gameOver, this);
+    game.time.events.add(Phaser.Timer.SECOND*150, gameOver, this);
+    game.time.events.add(Phaser.Timer.SECOND, Time, this);
 }
 
 function update() {
