@@ -100,7 +100,7 @@ function create() {
 function update() {
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.overlap(player, enemies, collideEnemy);
-    player.body.velocity.x = 100;
+   
 
     if (cursors.left.isDown){
         player.body.velocity.x = -120;
