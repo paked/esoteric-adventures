@@ -59,6 +59,9 @@ function Time(){
         game.time.events.add(Phaser.Timer.SECOND, Time, this);
 
 }
+function killEnemy(shard, enemy){
+    enemy.kill();
+}
 function killPlayer(player, enemy) {
     player.kill();
     var t = game.add.text(0,0, 'Game Over', style);
@@ -148,7 +151,7 @@ function update() {
     game.physics.arcade.overlap(player, enemies, collideEnemy);
     game.physics.arcade.overlap(player, spirit, collectSpirits);
     game.physics.arcade.overlap(player, enemies, killPlayer);
-
+    game.physics.arcade.collide(shards, enemies, killEnemy);
     if (cursors.left.isDown){
         player.body.velocity.x = -120;
     }
