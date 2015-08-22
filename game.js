@@ -43,6 +43,8 @@ function gameOver(){
     t.anchor.set(0.5);
     t.x = game.width/2;
     t.y = game.height/2;
+    player.kill();
+    enemy.kill
     game.time.events.add(Phaser.Timer.SECOND*5, gameReload, this);
 }
 function gameReload(){
@@ -53,6 +55,15 @@ function Time(){
     timercount -= 1;
     console.log('Hello')
         game.time.events.add(Phaser.Timer.SECOND, Time, this);
+
+}
+function killPlayer(player, enemy) {
+    player.kill();
+    var t = game.add.text(0,0, 'Game Over', style);
+    t.anchor.set(0.5);
+    t.x = game.width/2;
+    t.y = game.height/2;
+   game.time.events.add(Phaser.Timer.SECOND*5, gameReload, this);
 }
 collideEnemy = function (player, enemy) {
     if (enemy.body.touching.up) {
@@ -115,6 +126,7 @@ function update() {
     game.physics.arcade.collide(spirit, platforms);
     game.physics.arcade.overlap(player, enemies, collideEnemy);
     game.physics.arcade.overlap(player, spirit, collectSpirits);
+    game.physics.arcade.overlap(player, enemies, killPlayer);
 
     if (cursors.left.isDown){
         player.body.velocity.x = -120;
