@@ -36,7 +36,6 @@ function collectSpirits(player, spirit){
     score += 1;
     spirit.kill();
     spirittext.text = 'Spirits: ' + score;
-
 }
 function gameOver(){
     var t = game.add.text(0,0, 'Game Over', style);
@@ -92,6 +91,7 @@ function create() {
     map.addTilesetImage('tileset', 'tiles');
 
     map.setCollisionBetween(1, 4);
+    game.world.setBounds(0, 0, map.width * map.tileWidth, map.height * map.tileHeight);
 
     platforms = map.createLayer('Tile Layer 1');
 
@@ -101,6 +101,7 @@ function create() {
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.bounce.y = 0.05;
     player.body.collideWorldBounds = true;
+    game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER);
     moveTime = game.time.now + 750;
     enemies = this.add.physicsGroup();
     enemies.create(200, 200,'enemy');
