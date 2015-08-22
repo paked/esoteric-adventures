@@ -17,7 +17,7 @@ function preload() {
 
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.physics.arcade.gravity.y = 250;
+    game.physics.arcade.gravity.y = 500;
 
 
     player = game.add.sprite(0, 0, 'player');
@@ -41,8 +41,11 @@ function update() {
    }
    if(cursors.right.isDown){
     player.body.velocity.x = 120;
-   }
 
+   }
+   if(cursors.up.isDown &&(player.body.touching.down || player.body.onFloor())){
+        player.body.velocity.y = -350;
+    }
 
  
 }
