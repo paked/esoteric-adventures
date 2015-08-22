@@ -46,8 +46,8 @@ function gameOver(){
     t.x = game.width/2;
     t.y = game.height/2;
     player.kill();
-    enemy.kill
-    game.time.events.add(Phaser.Timer.SECOND*5, gameReload, this);
+    enemy.kill();
+    game.time.events.add(Phaser.Timer.SECOND*1, gameReload, this);
 }
 function gameReload(){
     location.reload()
