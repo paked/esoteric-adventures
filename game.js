@@ -24,7 +24,7 @@ function create() {
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.bounce.y = 0.05;
     player.body.collideWorldBounds = true;
-    
+
     cursors = game.input.keyboard.createCursorKeys()
     game.stage.backgroundColor = '#72C257';
     // NOTE:
@@ -34,7 +34,7 @@ function create() {
 }
 
 function update() {
-    player.body.velocity = 0;
+    player.body.velocity.x = 0;
 
    if (cursors.left.isDown){
     player.body.velocity.x = -120;
