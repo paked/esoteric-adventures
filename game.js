@@ -13,6 +13,7 @@ var cursors;
 var enemy;
 var platforms;
 var moveTime = 0;
+var style = {font: "65px Arial", fill: "#fff", align:"center"};
 
 function preload() {
     console.log("preloading...")
@@ -20,7 +21,14 @@ function preload() {
     game.load.image('enemy','assets/enemy.png');
     game.load.image('platform', 'assets/platform.png')
 }
+function gameOver(){
+    var t = game.add.text(0,0, 'Game Over', style);
+    t.anchor.set(0.5);
+    t.x = game.width/2;
+    t.y = game.height/2;
 
+
+}
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.physics.arcade.gravity.y = 500;
@@ -52,6 +60,7 @@ platforms.setAll('body.immovable', true);
     // whenever you create a sprite or use some sort of asset
     // remember to call: `MYASSET.scale.setTo(scaleRatio, scaleRatio);`
     // This will scale it up to the correct resolution on mobile devices
+    game.time.events.add(Phaser.Timer.SECOND*2, gameOver, this);
 }
 
 function update() {
