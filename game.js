@@ -8,11 +8,15 @@ if (windowWidth > 800 && windowHeight > 600) {
 }
 
 var game = new Phaser.Game(windowWidth, windowHeight, Phaser.CANVAS, 'game', { preload: preload, create: create, update: update });
-var player
-var cursors
+var player;
+var cursors;
+var enemy;
+var moveTime = 0;
+
 function preload() {
     console.log("preloading...")
     game.load.image('player', 'player.png')
+game.load.image('enemy','assets/enemy.png');
 }
 
 function create() {
@@ -24,6 +28,11 @@ function create() {
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.bounce.y = 0.05;
     player.body.collideWorldBounds = true;
+enemy = game.add.sprite(0,0,'enemy');
+game.physics.arcade.enable(enemy);
+enemy.body.velocity.x = 100;
+    enemy.body.collideWorldBounds = true;
+moveTime = game.time.now + 750;
 
     cursors = game.input.keyboard.createCursorKeys()
     game.stage.backgroundColor = '#72C257';
@@ -48,4 +57,9 @@ function update() {
     }
 
  
+    console.log("updating...")
+if(game.time.now >= moveTime ){
+enemy.body.velocity.x *= -1;
+moveTime = game.time.now + 750;
+}
 }
