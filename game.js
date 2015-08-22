@@ -108,11 +108,7 @@ function create() {
     platforms.create(250, 200, 'platform')
     platforms.setAll('body.allowGravity', false)
     platforms.setAll('body.immovable', true);
-    this.game.camera.follow(this.player);
-<<<<<<< Updated upstream
-=======
-    
->>>>>>> Stashed changes
+   
     cursors = game.input.keyboard.createCursorKeys()
     game.stage.backgroundColor = '#72C257';
     // NOTE:
@@ -126,6 +122,8 @@ function create() {
 
 function update() {
     game.physics.arcade.collide(player, layer);
+    game.physics.arcade.collide(enemies, layer);
+    game.physics.arcade.collide(spirit, layer);
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.overlap(player, enemies, collideEnemy);
     game.physics.arcade.overlap(player, spirit, collectSpirits);
