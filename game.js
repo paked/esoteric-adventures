@@ -18,12 +18,25 @@ function preload() {
     console.log("preloading...")
     game.load.image('player', 'assets/player.png')
     game.load.image('enemy','assets/enemy.png');
-    game.load.image('platform', 'assets/platform.png')
+    game.load.image('platform', 'assets/platform.png');
+game.load.image('spirit','assets/star.png');
 }
 collideEnemy = function (player, enemy) {
 if (enemy.body.touching.up) {
 enemy.kill();
-console.log("killing")
+console.log("killing");
+var sp1 = spirit.create(enemy.body.x, enemy.body.y, 'spirit');
+sp1.body.velocity.y = -500;
+sp1.body.velocity.x = 70;
+sp1.body.drag.x = 100;
+sp1.body.bounce.y = 0.5;
+sp1.body.collideWorldBounds = true;
+var sp2 = spirit.create(enemy.body.x, enemy.body.y,'spirit');
+sp2.body.velocity.y = -500;
+sp2.body.velocity.x = -70;
+sp2.body.drag.x = 100
+sp2.body.bounce.y = 0.5;
+sp2.body.collideWorldBounds = true;
 }
 }
 
@@ -42,7 +55,9 @@ enemies.create(200, 200,'enemy');
 enemies.create(450,350,'enemy');
 enemies.setAll('body.velocity.x', 100);
 enemies.setAll('body.collideWorldBounds', true);
-
+spirit = this.add.physicsGroup();
+spirit.setAll('body.collideWorldBounds',true);
+spirit.setAll('body.velocity.y',1000);
 platforms = this.add.physicsGroup();
 platforms.create(100, 300, 'platform')
 platforms.create(150, 300, 'platform')
@@ -50,6 +65,7 @@ platforms.create(200, 200, 'platform')
 platforms.create(250, 200, 'platform')
 platforms.setAll('body.allowGravity', false)
 platforms.setAll('body.immovable', true);
+
 
 
     cursors = game.input.keyboard.createCursorKeys()
