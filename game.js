@@ -19,7 +19,6 @@ var timercount = 150;
 var score = 0;
 var spirittext;
 var map;
-var layer;
 
 function preload() {
     console.log("preloading...")
@@ -34,7 +33,6 @@ function preload() {
     game.load.tilemap('forest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
 }
 function collectSpirits(player, spirit){
-    
     score += 1;
     spirit.kill();
     spirittext.text = 'Spirits: ' + score;
@@ -84,7 +82,7 @@ function create() {
 
     map.setCollisionBetween(1, 4);
 
-    layer = map.createLayer('Tile Layer 1');
+    platforms = map.createLayer('Tile Layer 1');
 
     timertext = game.add.text(32,32, 'Timer: ' + timercount);
     spirittext = game.add.text(32, 62, 'Spirits: ' + score)
@@ -101,14 +99,6 @@ function create() {
     spirit = this.add.physicsGroup();
     spirit.setAll('body.collideWorldBounds',true);
     spirit.setAll('body.velocity.y',1000);
-    platforms = this.add.physicsGroup();
-    platforms.create(100, 300, 'platform')
-    platforms.create(150, 300, 'platform')
-    platforms.create(200, 200, 'platform')
-    platforms.create(250, 200, 'platform')
-    platforms.setAll('body.allowGravity', false)
-    platforms.setAll('body.immovable', true);
-   
     cursors = game.input.keyboard.createCursorKeys()
     game.stage.backgroundColor = '#72C257';
     // NOTE:
@@ -121,10 +111,9 @@ function create() {
 }
 
 function update() {
-    game.physics.arcade.collide(player, layer);
-    game.physics.arcade.collide(enemies, layer);
-    game.physics.arcade.collide(spirit, layer);
     game.physics.arcade.collide(player, platforms);
+    game.physics.arcade.collide(enemies, platforms);
+    game.physics.arcade.collide(spirit, platforms);
     game.physics.arcade.overlap(player, enemies, collideEnemy);
     game.physics.arcade.overlap(player, spirit, collectSpirits);
 
