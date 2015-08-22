@@ -20,6 +20,7 @@ var score = 0;
 var spirittext;
 var shards;
 var space_key;
+var map;
 function preload() {
     console.log("preloading...")
     game.load.image('player', 'assets/player.png')
@@ -28,9 +29,11 @@ function preload() {
     game.load.image('spirit','assets/star.png');
     game.load.image('orb','assets/spirit.png');
     game.load.image('shard','assets/shard.png');
+
+    game.load.image('tiles', 'assets/tileset.png');
+    game.load.tilemap('forest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
 }
 function collectSpirits(player, spirit){
-    
     score += 1;
     spirit.kill();
     spirittext.text = 'Spirits: ' + score;
@@ -41,6 +44,8 @@ function gameOver(){
     t.anchor.set(0.5);
     t.x = game.width/2;
     t.y = game.height/2;
+    player.kill();
+    enemy.kill
     game.time.events.add(Phaser.Timer.SECOND*5, gameReload, this);
 }
 function gameReload(){
@@ -51,6 +56,15 @@ function Time(){
     timercount -= 1;
     console.log('Hello')
         game.time.events.add(Phaser.Timer.SECOND, Time, this);
+
+}
+function killPlayer(player, enemy) {
+    player.kill();
+    var t = game.add.text(0,0, 'Game Over', style);
+    t.anchor.set(0.5);
+    t.x = game.width/2;
+    t.y = game.height/2;
+   game.time.events.add(Phaser.Timer.SECOND*5, gameReload, this);
 }
 collideEnemy = function (player, enemy) {
     if (enemy.body.touching.up) {
@@ -74,12 +88,22 @@ collideEnemy = function (player, enemy) {
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.physics.arcade.gravity.y = 500;
+
+    map = game.add.tilemap('forest');
+    map.addTilesetImage('tileset', 'tiles');
+
+    map.setCollisionBetween(1, 4);
+    game.world.setBounds(0, 0, map.width * map.tileWidth, map.height * map.tileHeight);
+
+    platforms = map.createLayer('Tile Layer 1');
+
     timertext = game.add.text(32,32, 'Timer: ' + timercount);
     spirittext = game.add.text(32, 62, 'Spirits: ' + score)
     player = game.add.sprite(0, 0, 'player');
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.bounce.y = 0.05;
     player.body.collideWorldBounds = true;
+    game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER);
     moveTime = game.time.now + 750;
     enemies = this.add.physicsGroup();
     enemies.create(200, 200,'enemy');
@@ -89,16 +113,8 @@ function create() {
     spirit = this.add.physicsGroup();
     spirit.setAll('body.collideWorldBounds',true);
     spirit.setAll('body.velocity.y',1000);
-    platforms = this.add.physicsGroup();
-    platforms.create(100, 300, 'platform')
-    platforms.create(150, 300, 'platform')
-    platforms.create(200, 200, 'platform')
-    platforms.create(250, 200, 'platform')
-    platforms.setAll('body.allowGravity', false)
-    platforms.setAll('body.immovable', true);
-    this.game.camera.follow(this.player);
     cursors = game.input.keyboard.createCursorKeys()
-     game.stage.backgroundColor = '#72C257';
+    game.stage.backgroundColor = '#72C257';
     // NOTE:
     // whenever you create a sprite or use some sort of asset
     // remember to call: `MYASSET.scale.setTo(scaleRatio, scaleRatio);`
@@ -121,14 +137,17 @@ function fireShard() {
         shard.body.velocity.x = 300;
         shard.body.allowGravity = false;
 
-    }
+   }
 }
 
 
 function update() {
     game.physics.arcade.collide(player, platforms);
+    game.physics.arcade.collide(enemies, platforms);
+    game.physics.arcade.collide(spirit, platforms);
     game.physics.arcade.overlap(player, enemies, collideEnemy);
     game.physics.arcade.overlap(player, spirit, collectSpirits);
+    game.physics.arcade.overlap(player, enemies, killPlayer);
 
     if (cursors.left.isDown){
         player.body.velocity.x = -120;
