@@ -18,6 +18,9 @@ var timertext;
 var timercount = 150;
 var score = 0;
 var spirittext;
+var map;
+var layer;
+
 function preload() {
     console.log("preloading...")
     game.load.image('player', 'assets/player.png')
@@ -26,6 +29,9 @@ function preload() {
     game.load.image('spirit','assets/star.png');
     game.load.image('orb','assets/spirit.png');
     game.load.image('shard','assets/shard.png');
+
+    game.load.image('tiles', 'assets/tileset.png');
+    game.load.tilemap('forest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
 }
 function collectSpirits(player, spirit){
     
@@ -72,6 +78,14 @@ collideEnemy = function (player, enemy) {
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.physics.arcade.gravity.y = 500;
+
+    map = game.add.tilemap('forest');
+    map.addTilesetImage('tileset', 'tiles');
+
+    map.setCollisionBetween(1, 4);
+
+    layer = map.createLayer('Tile Layer 1');
+
     timertext = game.add.text(32,32, 'Timer: ' + timercount);
     spirittext = game.add.text(32, 62, 'Spirits: ' + score)
     player = game.add.sprite(0, 0, 'player');
@@ -95,8 +109,12 @@ function create() {
     platforms.setAll('body.allowGravity', false)
     platforms.setAll('body.immovable', true);
     this.game.camera.follow(this.player);
+<<<<<<< Updated upstream
+=======
+    
+>>>>>>> Stashed changes
     cursors = game.input.keyboard.createCursorKeys()
-     game.stage.backgroundColor = '#72C257';
+    game.stage.backgroundColor = '#72C257';
     // NOTE:
     // whenever you create a sprite or use some sort of asset
     // remember to call: `MYASSET.scale.setTo(scaleRatio, scaleRatio);`
@@ -107,6 +125,7 @@ function create() {
 }
 
 function update() {
+    game.physics.arcade.collide(player, layer);
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.overlap(player, enemies, collideEnemy);
     game.physics.arcade.overlap(player, spirit, collectSpirits);
