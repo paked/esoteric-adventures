@@ -16,6 +16,8 @@ var moveTime = 0;
 var style = {font: "65px Arial", fill: "#fff", align:"center"};
 var timertext;
 var timercount = 150;
+var score = 0;
+var spirittext;
 function preload() {
     console.log("preloading...")
     game.load.image('player', 'assets/player.png')
@@ -25,7 +27,13 @@ function preload() {
     game.load.image('orb','assets/spirit.png');
     game.load.image('shard','assets/shard.png');
 }
+function collectSpirits(player, spirit){
+    
+    score += 1;
+    spirit.kill();
+    spirittext.text = 'Spirits: ' + score;
 
+}
 function gameOver(){
     var t = game.add.text(0,0, 'Game Over', style);
     t.anchor.set(0.5);
@@ -46,13 +54,13 @@ collideEnemy = function (player, enemy) {
     if (enemy.body.touching.up) {
         enemy.kill();
         console.log("killing");
-        var sp1 = spirit.create(enemy.body.x, enemy.body.y, 'spirit');
+        var sp1 = spirit.create(enemy.body.x + 30, enemy.body.y - 30, 'spirit');
         sp1.body.velocity.y = -500;
         sp1.body.velocity.x = 70;
         sp1.body.drag.x = 100;
         sp1.body.bounce.y = 0.5;
         sp1.body.collideWorldBounds = true;
-        var sp2 = spirit.create(enemy.body.x, enemy.body.y,'spirit');
+        var sp2 = spirit.create(enemy.body.x + 30, enemy.body.y -30,'spirit');
         sp2.body.velocity.y = -500;
         sp2.body.velocity.x = -70;
         sp2.body.drag.x = 100;
@@ -65,6 +73,7 @@ function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.physics.arcade.gravity.y = 500;
     timertext = game.add.text(32,32, 'Timer: ' + timercount);
+    spirittext = game.add.text(32, 62, 'Spirits: ' + score)
     player = game.add.sprite(0, 0, 'player');
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.bounce.y = 0.05;
@@ -100,7 +109,7 @@ function create() {
 function update() {
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.overlap(player, enemies, collideEnemy);
-    player.body.velocity.x = 100;
+    game.physics.arcade.overlap(player, spirit, collectSpirits);
 
     if (cursors.left.isDown){
         player.body.velocity.x = -120;
