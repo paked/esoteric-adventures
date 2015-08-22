@@ -23,6 +23,7 @@ function preload() {
     game.load.image('platform', 'assets/platform.png');
     game.load.image('spirit','assets/star.png');
     game.load.image('orb','assets/spirit.png');
+    game.load.image('shard','assets/shard.png');
 }
 
 function gameOver(){
@@ -59,6 +60,7 @@ collideEnemy = function (player, enemy) {
         sp2.body.collideWorldBounds = true;
     }
 }
+
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.physics.arcade.gravity.y = 500;
@@ -84,9 +86,6 @@ function create() {
     platforms.setAll('body.allowGravity', false)
     platforms.setAll('body.immovable', true);
     this.game.camera.follow(this.player);
-    
-
-
     cursors = game.input.keyboard.createCursorKeys()
      game.stage.backgroundColor = '#72C257';
     // NOTE:
@@ -95,6 +94,7 @@ function create() {
     // This will scale it up to the correct resolution on mobile devices
     game.time.events.add(Phaser.Timer.SECOND*150, gameOver, this);
     game.time.events.add(Phaser.Timer.SECOND, Time, this);
+
 }
 
 function update() {
@@ -111,8 +111,10 @@ function update() {
     if(cursors.up.isDown &&(player.body.touching.down || player.body.onFloor())){
         player.body.velocity.y = -350;
     }
-
-
+    if(cursors.down.isDown){
+        shard.body.velocity.x = 200;
+    }
+   
     console.log("updating...")
         if(game.time.now >= moveTime ){
             enemies.multiplyAll('body.velocity.x',-1)
