@@ -11,12 +11,14 @@ var game = new Phaser.Game(windowWidth, windowHeight, Phaser.CANVAS, 'game', { p
 var player;
 var cursors;
 var enemy;
+var platforms;
 var moveTime = 0;
 
 function preload() {
     console.log("preloading...")
-    game.load.image('player', 'player.png')
-game.load.image('enemy','assets/enemy.png');
+    game.load.image('player', 'assets/player.png')
+    game.load.image('enemy','assets/enemy.png');
+    game.load.image('platform', 'assets/platform.png')
 }
 
 function create() {
@@ -34,6 +36,15 @@ enemy.body.velocity.x = 100;
     enemy.body.collideWorldBounds = true;
 moveTime = game.time.now + 750;
 
+platforms = this.add.physicsGroup();
+platforms.create(100, 300, 'platform')
+platforms.create(150, 300, 'platform')
+platforms.create(200, 200, 'platform')
+platforms.create(250, 200, 'platform')
+platforms.setAll('body.allowGravity', false)
+platforms.setAll('body.immovable', true);
+
+
     cursors = game.input.keyboard.createCursorKeys()
     game.stage.backgroundColor = '#72C257';
     // NOTE:
@@ -43,6 +54,7 @@ moveTime = game.time.now + 750;
 }
 
 function update() {
+    game.physics.arcade.collide(player, platforms);
     player.body.velocity.x = 0;
 
    if (cursors.left.isDown){
