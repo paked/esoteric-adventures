@@ -21,6 +21,7 @@ var spirittext;
 var shards;
 var space_key;
 var map;
+var pie;
 function preload() {
     console.log("preloading...")
     game.load.spritesheet('player', 'assets/eso.png');
@@ -29,9 +30,10 @@ function preload() {
     game.load.image('spirit','assets/star.png');
     game.load.image('orb','assets/spirit.png');
     game.load.image('shard','assets/shard.png');
-
     game.load.image('tiles', 'assets/tileset.png');
+    game.load.image('boss','assets/boss.png');
     game.load.tilemap('forest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.spritesheet('player_sheet', 'assets/player_sheet.png', 18, 26, 4)
 }
 function collectSpirits(player, spirit){
     score += 1;
@@ -42,7 +44,7 @@ function collectSpirits(player, spirit){
 }
 function gameOver(){
     var t = game.add.text(0,0, 'Game Over', style);
-    anchor.set(0.5);
+    t.anchor.set(0.5);
     t.x = game.width/2;
     t.y = game.height/2;
     player.kill();
@@ -59,8 +61,26 @@ function Time(){
         game.time.events.add(Phaser.Timer.SECOND, Time, this);
 
 }
+addShard = function(shard,enemy){
+  enemy.kill();
+        console.log("killing");
+        var sp1 = spirit.create(enemy.body.x + 30, enemy.body.y - 30, 'spirit');
+        sp1.body.velocity.y = -500;
+        sp1.body.velocity.x = 70;
+        sp1.body.drag.x = 100;
+        sp1.body.bounce.y = 0.5;
+        sp1.body.collideWorldBounds = true;
+        var sp2 = spirit.create(enemy.body.x + 30, enemy.body.y -30,'spirit');
+        sp2.body.velocity.y = -500;
+        sp2.body.velocity.x = -70;
+        sp2.body.drag.x = 100;
+        sp2.body.bounce.y = 0.5;
+        sp2.body.collideWorldBounds = true;
+}
+
 function killEnemy(shard, enemy){
     enemy.kill();
+    shard.kill();
 }
 function killPlayer(player, enemy) {
     player.kill();
@@ -68,7 +88,8 @@ function killPlayer(player, enemy) {
     t.anchor.set(0.5);
     t.x = game.width/2;
     t.y = game.height/2;
-   game.time.events.add(Phaser.Timer.SECOND*5, gameReload, this);
+   game.time.events.add(Phaser.Timer.SECOND*2, gameReload, this);
+   score = 0;
 }
 collideEnemy = function (player, enemy) {
     if (enemy.body.touching.up) {
@@ -88,14 +109,26 @@ collideEnemy = function (player, enemy) {
         sp2.body.collideWorldBounds = true;
     }
 }
+boss = function(){
+       if(score == 6){
+       console.log("boss initiated..");
+       boss = game.add.sprite(0,player.y,'boss');
+       game.physics.enable(boss, Phaser.Physics.ARCADE);
+       boss.body.collideWorldBounds = true;
+       boss.body.bounce.y = 0.1;
+       boss.body.velocity.x = 100;
+       console.log("test");
+
+
+      
+}
+}
 
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.physics.arcade.gravity.y = 500;
-
     map = game.add.tilemap('forest');
     map.addTilesetImage('tileset', 'tiles');
-
     map.setCollisionBetween(1, 4);
     game.world.setBounds(0, 0, map.width * map.tileWidth, map.height * map.tileHeight);
 
@@ -108,10 +141,15 @@ function create() {
     player = game.add.sprite(0, 0, 'player');
     var walk = player.animations.add('walk');
     player.animations.play('walk', 30, true);
+    player = game.add.sprite(0, 0, 'player_sheet');
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.bounce.y = 0.05;
     player.body.collideWorldBounds = true;
+    player.animations.add('walk', [1, 2, 3], 5, true);
+    player.animations.play('walk');
+
     game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER);
+
     moveTime = game.time.now + 750;
     enemies = this.add.physicsGroup();
     enemies.create(200, 200,'enemy');
@@ -158,6 +196,7 @@ function update() {
     game.physics.arcade.overlap(player, spirit, collectSpirits);
     game.physics.arcade.overlap(player, enemies, killPlayer);
     game.physics.arcade.collide(shards, enemies, killEnemy);
+    game.physics.arcade.overlap(shards, enemies, addShard);
     if (cursors.left.isDown){
         player.body.velocity.x = -120;
     }
@@ -167,6 +206,7 @@ function update() {
     if(cursors.up.isDown &&(player.body.touching.down || player.body.onFloor())){
         player.body.velocity.y = -350;
     }
+    boss();
    
     console.log("updating...")
         if(game.time.now >= moveTime ){
