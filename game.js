@@ -88,6 +88,7 @@ function killPlayer(player, enemy) {
     t.x = game.width/2;
     t.y = game.height/2;
    game.time.events.add(Phaser.Timer.SECOND*2, gameReload, this);
+   score = 0;
 }
 collideEnemy = function (player, enemy) {
     if (enemy.body.touching.up) {
