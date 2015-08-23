@@ -33,6 +33,7 @@ function preload() {
     game.load.image('tiles', 'assets/tileset.png');
     game.load.image('boss','assets/boss.png');
     game.load.tilemap('forest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.spritesheet('player_sheet', 'assets/player_sheet.png', 9, 13, 4)
 }
 function collectSpirits(player, spirit){
     score += 1;
@@ -137,10 +138,14 @@ function create() {
     timertext.fixedToCamera = true;
     spirittext = game.add.text(32, 62, 'Spirits: ' + score)
     spirittext.fixedToCamera = true;
-   player = game.add.sprite(0, 0, 'player');
+    player = game.add.sprite(0, 0, 'player_sheet');
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.bounce.y = 0.05;
     player.body.collideWorldBounds = true;
+    player.animations.add('walk');
+    player.animations.play('walk', 1);
+
+
 
     game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER);
     moveTime = game.time.now + 750;
