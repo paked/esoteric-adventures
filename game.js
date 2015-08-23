@@ -22,6 +22,7 @@ var shards;
 var space_key;
 var map;
 var antiShards;
+var bossSpawned = false;
 function preload() {
     console.log("preloading...")
     game.load.audio('Music', 'assets/eso.mp3')
@@ -120,6 +121,8 @@ collideEnemy = function (player, enemy) {
 }
 function boss(){
    if(score == 6){
+       bossSpawned = true;
+
        console.log("boss initiated..");
        createboss = game.add.sprite(player.x,0 - 50 ,'boss');
        game.physics.enable(createboss, Phaser.Physics.ARCADE);
@@ -127,6 +130,7 @@ function boss(){
        createboss.body.bounce.y = 0.05;
 
        fireantiShard();
+
     }
 }
 
@@ -235,7 +239,10 @@ function update() {
         player.body.velocity.y = -350;
         game.sound.play('Jump')
     }
-    
+
+    if (!bossSpawned) {
+        boss();
+    }
    
     console.log("updating...")
         if(game.time.now >= moveTime ){
