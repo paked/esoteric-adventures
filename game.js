@@ -116,6 +116,9 @@ boss = function(){
        boss.body.collideWorldBounds = true;
        boss.body.bounce.y = 0.1;
        boss.body.velocity.x = 100;
+       console.log("test");
+
+
       
 }
 }
