@@ -23,6 +23,8 @@ var space_key;
 var map;
 var antiShards;
 var bossSpawned = false;
+var createboss;
+
 function preload() {
     console.log("preloading...")
     game.load.audio('Music', 'assets/eso.mp3')
@@ -45,15 +47,16 @@ function collectSpirits(player, spirit){
     var s = shards.create(0,0,'shard');
     s.kill();
 }
+
 function gameOver(){
     var t = game.add.text(0,0, 'Game Over', style);
     t.anchor.set(0.5);
     t.x = game.width/2;
     t.y = game.height/2;
     player.kill();
-    enemy.kill();
     game.time.events.add(Phaser.Timer.SECOND*1, gameReload, this);
 }
+
 function gameReload(){
     location.reload()
 }
@@ -228,6 +231,9 @@ function update() {
     game.physics.arcade.collide(shards, enemies, killEnemy);
     game.physics.arcade.overlap(shards, enemies, addShard);
     game.physics.arcade.overlap(antiShards,player,killPlayerB);
+    if (createboss) {
+        game.physics.arcade.overlap(player, createboss, gameOver);
+    }
 
     if (cursors.left.isDown){
         player.body.velocity.x = -120;
