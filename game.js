@@ -21,6 +21,7 @@ var spirittext;
 var shards;
 var space_key;
 var map;
+var antiShard;
 function preload() {
     console.log("preloading...")
     game.load.audio('Music', 'assets/eso.mp3')
@@ -82,6 +83,12 @@ addShard = function(shard,enemy){
 function killEnemy(shard, enemy){
     enemy.kill();
     shard.kill();
+
+}
+function killPlayerB(antiShard,player){
+    player.kill();
+    antiShard.kill;
+
 }
 function killPlayer(player, enemy) {
     player.kill();
@@ -113,11 +120,12 @@ collideEnemy = function (player, enemy) {
 function boss(){
        if(score == 6){
        console.log("boss initiated..");
-       createboss = game.add.sprite(0,0,'boss');
+       createboss = game.add.sprite(player.x,0 - 50 ,'boss');
        game.physics.enable(createboss, Phaser.Physics.ARCADE);
        createboss.body.collideWorldBounds = true;
-       createboss.body.bounce.y = 0.1;
-       console.log("test");
+       createboss.body.bounce.y = 0.05;
+       fireantiShard();
+       
 
 
       
@@ -163,6 +171,7 @@ function create() {
     spirit.setAll('body.velocity.y',1000);
     cursors = game.input.keyboard.createCursorKeys()
     game.stage.backgroundColor = '#72C257';
+    boss();
     // NOTE:
     // whenever you create a sprite or use some sort of asset
     // remember to call: `MYASSET.scale.setTo(scaleRatio, scaleRatio);`
@@ -192,6 +201,15 @@ function fireShard() {
         game.sound.play('shoot')
    }
 }
+function fireantiShard() {
+    var antiShards = antiShard;
+    if(antiShard){
+    antiShards.reset(boss.x,boss.y, +8)
+    antiShards.body.velocity.x = 300;
+    antiShards.body.allowGravity = false;
+    console.log('test');
+}
+}
 
 
 
@@ -205,6 +223,7 @@ function update() {
     game.physics.arcade.overlap(player, enemies, killPlayer);
     game.physics.arcade.collide(shards, enemies, killEnemy);
     game.physics.arcade.overlap(shards, enemies, addShard);
+    game.physics.arcade.overlap(antiShard,player,killPlayerB);
     if (cursors.left.isDown){
         player.body.velocity.x = -120;
     }
@@ -215,7 +234,7 @@ function update() {
         player.body.velocity.y = -350;
         game.sound.play('Jump')
     }
-    boss();
+    
    
     console.log("updating...")
         if(game.time.now >= moveTime ){
