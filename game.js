@@ -25,6 +25,7 @@ function preload() {
     console.log("preloading...")
     game.load.audio('Music', 'assets/eso.mp3')
     game.load.audio('Jump', 'assets/jump.mp3')
+    game.load.audio('shoot', 'assets/shoot.mp3')
     game.load.image('enemy','assets/enemy.png');
     game.load.image('platform', 'assets/platform.png');
     game.load.image('spirit','assets/star.png');
@@ -182,11 +183,13 @@ function fireShard() {
         shard.body.velocity.x = 300;
         if (player.body.velocity.x < 0) {
             shard.body.velocity.x *= -1;
+
         }
 
         shard.body.allowGravity = false;
         score -= 1;
         spirittext.text = 'Spirits: ' + score;
+        game.sound.play('shoot')
    }
 }
 
