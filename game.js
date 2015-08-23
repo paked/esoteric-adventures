@@ -21,6 +21,7 @@ var spirittext;
 var shards;
 var space_key;
 var map;
+var pie;
 function preload() {
     console.log("preloading...")
     game.load.image('player', 'assets/player.png')
@@ -29,8 +30,8 @@ function preload() {
     game.load.image('spirit','assets/star.png');
     game.load.image('orb','assets/spirit.png');
     game.load.image('shard','assets/shard.png');
-
     game.load.image('tiles', 'assets/tileset.png');
+    game.load.image('boss','assets/boss.png');
     game.load.tilemap('forest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
 }
 function collectSpirits(player, spirit){
@@ -68,7 +69,7 @@ function killPlayer(player, enemy) {
     t.anchor.set(0.5);
     t.x = game.width/2;
     t.y = game.height/2;
-   game.time.events.add(Phaser.Timer.SECOND*5, gameReload, this);
+   game.time.events.add(Phaser.Timer.SECOND*2, gameReload, this);
 }
 collideEnemy = function (player, enemy) {
     if (enemy.body.touching.up) {
@@ -88,14 +89,21 @@ collideEnemy = function (player, enemy) {
         sp2.body.collideWorldBounds = true;
     }
 }
+boss = function(){
+       if(score == 6){
+       console.log("boss initiated..");
+       boss = game.add.sprite(0,player.y,'boss');
+       game.physics.enable(boss, Phaser.Physics.ARCADE);
+       boss.body.collideWorldBounds = true;
+       boss.body.bounce.y = 0.1;
+}
+}
 
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.physics.arcade.gravity.y = 500;
-
     map = game.add.tilemap('forest');
     map.addTilesetImage('tileset', 'tiles');
-
     map.setCollisionBetween(1, 4);
     game.world.setBounds(0, 0, map.width * map.tileWidth, map.height * map.tileHeight);
 
@@ -109,6 +117,8 @@ function create() {
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.bounce.y = 0.05;
     player.body.collideWorldBounds = true;
+    boss();
+
     game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER);
     moveTime = game.time.now + 750;
     enemies = this.add.physicsGroup();
