@@ -23,7 +23,7 @@ var space_key;
 var map;
 function preload() {
     console.log("preloading...")
-    game.load.image('player', 'assets/player.png')
+    game.load.spritesheet('player', 'assets/eso.png');
     game.load.image('enemy','assets/enemy.png');
     game.load.image('platform', 'assets/platform.png');
     game.load.image('spirit','assets/star.png');
@@ -106,6 +106,8 @@ function create() {
     spirittext = game.add.text(32, 62, 'Spirits: ' + score)
     spirittext.fixedToCamera = true;
     player = game.add.sprite(0, 0, 'player');
+    var walk = player.animations.add('walk');
+    player.animations.play('walk', 30, true);
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.bounce.y = 0.05;
     player.body.collideWorldBounds = true;
