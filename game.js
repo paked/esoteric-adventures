@@ -21,7 +21,6 @@ var spirittext;
 var shards;
 var space_key;
 var map;
-var pie;
 function preload() {
     console.log("preloading...")
     game.load.image('player', 'assets/player.png')
@@ -109,14 +108,13 @@ collideEnemy = function (player, enemy) {
         sp2.body.collideWorldBounds = true;
     }
 }
-boss = function(){
+function boss(){
        if(score == 6){
        console.log("boss initiated..");
-       boss = game.add.sprite(0,player.y,'boss');
-       game.physics.enable(boss, Phaser.Physics.ARCADE);
-       boss.body.collideWorldBounds = true;
-       boss.body.bounce.y = 0.1;
-       boss.body.velocity.x = 100;
+       createboss = game.add.sprite(0,0,'boss');
+       game.physics.enable(createboss, Phaser.Physics.ARCADE);
+       createboss.body.collideWorldBounds = true;
+       createboss.body.bounce.y = 0.1;
        console.log("test");
 
 
@@ -186,6 +184,7 @@ function fireShard() {
 
 
 function update() {
+    player.body.velocity.x = 0;
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(enemies, platforms);
     game.physics.arcade.collide(spirit, platforms);
