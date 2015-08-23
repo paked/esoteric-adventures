@@ -130,9 +130,9 @@ function create() {
     map.setCollisionBetween(1, 4);
     game.world.setBounds(0, 0, map.width * map.tileWidth, map.height * map.tileHeight);
 
-     var music = game.add.audio('Music');
-     music.play();
-     music.loop = ('music',true);
+    var music = game.add.audio('Music');
+    music.loop = true;
+    music.play();
 
     platforms = map.createLayer('Tile Layer 1');
 
