@@ -181,9 +181,13 @@ function fireShard() {
     if(shard && score != 0) {
         shard.reset(player.x,player.y, + 8);
         shard.body.velocity.x = 300;
+        if (player.body.velocity.x < 0) {
+            shard.body.velocity.x *= -1;
+        }
+
         shard.body.allowGravity = false;
-        score -= 1
-    spirittext.text = 'Spirits: ' + score;
+        score -= 1;
+        spirittext.text = 'Spirits: ' + score;
    }
 }
 
