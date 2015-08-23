@@ -33,7 +33,7 @@ function preload() {
     game.load.image('tiles', 'assets/tileset.png');
     game.load.image('boss','assets/boss.png');
     game.load.tilemap('forest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
-    game.load.spritesheet('player_sheet', 'assets/player_sheet.png', 9, 13, 4)
+    game.load.spritesheet('player_sheet', 'assets/player_sheet.png', 18, 26, 4)
 }
 function collectSpirits(player, spirit){
     score += 1;
@@ -44,7 +44,7 @@ function collectSpirits(player, spirit){
 }
 function gameOver(){
     var t = game.add.text(0,0, 'Game Over', style);
-    anchor.set(0.5);
+    t.anchor.set(0.5);
     t.x = game.width/2;
     t.y = game.height/2;
     player.kill();
@@ -142,12 +142,11 @@ function create() {
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.bounce.y = 0.05;
     player.body.collideWorldBounds = true;
-    player.animations.add('walk');
-    player.animations.play('walk', 1);
-
-
+    player.animations.add('walk', [1, 2, 3], 5, true);
+    player.animations.play('walk');
 
     game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER);
+
     moveTime = game.time.now + 750;
     enemies = this.add.physicsGroup();
     enemies.create(200, 200,'enemy');
