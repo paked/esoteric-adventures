@@ -21,7 +21,7 @@ var spirittext;
 var shards;
 var space_key;
 var map;
-var antiShard;
+var antiShards;
 function preload() {
     console.log("preloading...")
     game.load.audio('Music', 'assets/eso.mp3')
@@ -85,11 +85,12 @@ function killEnemy(shard, enemy){
     shard.kill();
 
 }
+
 function killPlayerB(antiShard,player){
     player.kill();
     antiShard.kill;
-
 }
+
 function killPlayer(player, enemy) {
     player.kill();
     var t = game.add.text(0,0, 'Game Over', style);
@@ -118,18 +119,15 @@ collideEnemy = function (player, enemy) {
     }
 }
 function boss(){
-       if(score == 6){
+   if(score == 6){
        console.log("boss initiated..");
        createboss = game.add.sprite(player.x,0 - 50 ,'boss');
        game.physics.enable(createboss, Phaser.Physics.ARCADE);
        createboss.body.collideWorldBounds = true;
        createboss.body.bounce.y = 0.05;
+
        fireantiShard();
-       
-
-
-      
-}
+    }
 }
 
 function create() {
@@ -184,6 +182,8 @@ function create() {
     var space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     space_key.onDown.add(fireShard);
 
+    antiShards = game.add.physicsGroup();
+    antiShards.createMultiple('spirit');
 }
 function fireShard() {
     var shard  = shards.getFirstExists(false);
@@ -202,13 +202,13 @@ function fireShard() {
    }
 }
 function fireantiShard() {
-    var antiShards = antiShard;
+    var antiShard = antiShards.getFirstExists(false);
     if(antiShard){
-    antiShards.reset(boss.x,boss.y, +8)
-    antiShards.body.velocity.x = 300;
-    antiShards.body.allowGravity = false;
-    console.log('test');
-}
+        antiShard.reset(boss.x,boss.y, +8)
+        antiShard.body.velocity.x = 300;
+        antiShard.body.allowGravity = false;
+        console.log('test');
+    }
 }
 
 
@@ -223,7 +223,8 @@ function update() {
     game.physics.arcade.overlap(player, enemies, killPlayer);
     game.physics.arcade.collide(shards, enemies, killEnemy);
     game.physics.arcade.overlap(shards, enemies, addShard);
-    game.physics.arcade.overlap(antiShard,player,killPlayerB);
+    game.physics.arcade.overlap(antiShards,player,killPlayerB);
+
     if (cursors.left.isDown){
         player.body.velocity.x = -120;
     }
