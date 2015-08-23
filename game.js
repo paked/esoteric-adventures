@@ -60,8 +60,26 @@ function Time(){
         game.time.events.add(Phaser.Timer.SECOND, Time, this);
 
 }
+addShard = function(shard,enemy){
+  enemy.kill();
+        console.log("killing");
+        var sp1 = spirit.create(enemy.body.x + 30, enemy.body.y - 30, 'spirit');
+        sp1.body.velocity.y = -500;
+        sp1.body.velocity.x = 70;
+        sp1.body.drag.x = 100;
+        sp1.body.bounce.y = 0.5;
+        sp1.body.collideWorldBounds = true;
+        var sp2 = spirit.create(enemy.body.x + 30, enemy.body.y -30,'spirit');
+        sp2.body.velocity.y = -500;
+        sp2.body.velocity.x = -70;
+        sp2.body.drag.x = 100;
+        sp2.body.bounce.y = 0.5;
+        sp2.body.collideWorldBounds = true;
+}
+
 function killEnemy(shard, enemy){
     enemy.kill();
+    shard.kill();
 }
 function killPlayer(player, enemy) {
     player.kill();
@@ -96,6 +114,8 @@ boss = function(){
        game.physics.enable(boss, Phaser.Physics.ARCADE);
        boss.body.collideWorldBounds = true;
        boss.body.bounce.y = 0.1;
+       boss.body.velocity.x = 100;
+      
 }
 }
 
@@ -113,11 +133,10 @@ function create() {
     timertext.fixedToCamera = true;
     spirittext = game.add.text(32, 62, 'Spirits: ' + score)
     spirittext.fixedToCamera = true;
-    player = game.add.sprite(0, 0, 'player');
+   player = game.add.sprite(0, 0, 'player');
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.bounce.y = 0.05;
     player.body.collideWorldBounds = true;
-    boss();
 
     game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER);
     moveTime = game.time.now + 750;
@@ -166,6 +185,7 @@ function update() {
     game.physics.arcade.overlap(player, spirit, collectSpirits);
     game.physics.arcade.overlap(player, enemies, killPlayer);
     game.physics.arcade.collide(shards, enemies, killEnemy);
+    game.physics.arcade.overlap(shards, enemies, addShard);
     if (cursors.left.isDown){
         player.body.velocity.x = -120;
     }
@@ -175,6 +195,7 @@ function update() {
     if(cursors.up.isDown &&(player.body.touching.down || player.body.onFloor())){
         player.body.velocity.y = -350;
     }
+    boss();
    
     console.log("updating...")
         if(game.time.now >= moveTime ){
