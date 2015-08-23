@@ -25,6 +25,7 @@ var antiShard;
 function preload() {
     console.log("preloading...")
     game.load.audio('Music', 'assets/eso.mp3')
+    game.load.audio('Jump', 'assets/jump.mp3')
     game.load.image('enemy','assets/enemy.png');
     game.load.image('platform', 'assets/platform.png');
     game.load.image('spirit','assets/star.png');
@@ -138,12 +139,10 @@ function create() {
     map.setCollisionBetween(1, 4);
     game.world.setBounds(0, 0, map.width * map.tileWidth, map.height * map.tileHeight);
 
-     var music = game.add.audio('Music');
-     music.play();
-     music.loop = ('music',true);
-
+    var music = game.add.audio('Music');
+    music.loop = true;
+    music.play();
     platforms = map.createLayer('Tile Layer 1');
-
     timertext = game.add.text(32,32, 'Timer: ' + timercount);
     timertext.fixedToCamera = true;
     spirittext = game.add.text(32, 62, 'Spirits: ' + score)
@@ -190,9 +189,13 @@ function fireShard() {
     if(shard && score != 0) {
         shard.reset(player.x,player.y, + 8);
         shard.body.velocity.x = 300;
+        if (player.body.velocity.x < 0) {
+            shard.body.velocity.x *= -1;
+        }
+
         shard.body.allowGravity = false;
-        score -= 1
-    spirittext.text = 'Spirits: ' + score;
+        score -= 1;
+        spirittext.text = 'Spirits: ' + score;
    }
 }
 function fireantiShard() {
@@ -226,6 +229,7 @@ function update() {
     }
     if(cursors.up.isDown &&(player.body.touching.down || player.body.onFloor())){
         player.body.velocity.y = -350;
+        game.sound.play('Jump')
     }
     
    
