@@ -23,6 +23,7 @@ var space_key;
 var map;
 function preload() {
     console.log("preloading...")
+    game.load.audio('Music', 'assets/eso.mp3')
     game.load.image('enemy','assets/enemy.png');
     game.load.image('platform', 'assets/platform.png');
     game.load.image('spirit','assets/star.png');
@@ -129,6 +130,10 @@ function create() {
     map.setCollisionBetween(1, 4);
     game.world.setBounds(0, 0, map.width * map.tileWidth, map.height * map.tileHeight);
 
+     var music = game.add.audio('Music');
+     music.play();
+     music.loop = ('music',true);
+
     platforms = map.createLayer('Tile Layer 1');
 
     timertext = game.add.text(32,32, 'Timer: ' + timercount);
@@ -181,6 +186,7 @@ function fireShard() {
     spirittext.text = 'Spirits: ' + score;
    }
 }
+
 
 
 function update() {
