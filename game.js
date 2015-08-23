@@ -24,6 +24,7 @@ var map;
 function preload() {
     console.log("preloading...")
     game.load.audio('Music', 'assets/eso.mp3')
+    game.load.audio('Jump', 'assets/jump.mp3')
     game.load.image('enemy','assets/enemy.png');
     game.load.image('platform', 'assets/platform.png');
     game.load.image('spirit','assets/star.png');
@@ -133,9 +134,7 @@ function create() {
     var music = game.add.audio('Music');
     music.loop = true;
     music.play();
-
     platforms = map.createLayer('Tile Layer 1');
-
     timertext = game.add.text(32,32, 'Timer: ' + timercount);
     timertext.fixedToCamera = true;
     spirittext = game.add.text(32, 62, 'Spirits: ' + score)
@@ -211,6 +210,7 @@ function update() {
     }
     if(cursors.up.isDown &&(player.body.touching.down || player.body.onFloor())){
         player.body.velocity.y = -350;
+        game.sound.play('Jump')
     }
     boss();
    
