@@ -28,6 +28,7 @@ var createboss;
 var bossTimer = 0;
 var bosstext;
 var clockboss = 5;
+var winningText;
 
 function preload() {
     console.log("preloading...")
@@ -79,17 +80,23 @@ function Time(){
 
     console.log('Hello');
 }
-function removeBoss(){
+function removeBoss(shard, boss){
     clockboss -= 1;
 
+    boss.kill();
 }
+
 function bossClock(){
     bosstext.text = 'Boss: ' + clockboss;
     if (clockboss == 0) {
+        console.log("KILLING")
         createboss.kill();
 
+        winningText = game.add.text(0, 0, "you win, congrats!", style);
+        winningText.anchor.set(0.5);
+        winningText.x = game.width/2;
+        winningText.y = game.height/2;
     }
-
 }
 
 addShard = function(shard,enemy){
@@ -149,7 +156,7 @@ collideEnemy = function (player, enemy) {
     }
 }
 function boss(){
-   if(score == 2){
+   if(score == 6){
        bossSpawned = true;
 
        console.log("boss initiated..");
@@ -279,16 +286,14 @@ function update() {
         game.physics.arcade.collide(createboss, platforms);
         game.physics.arcade.overlap(shards, createboss,removeBoss);
         bossClock();
-
-
     }
 
-    if (game.time.now > bossTimer && createboss) {
+    if (game.time.now > bossTimer && createboss && clockboss != 0) {
         fireantiShard();
-        bossTimer =  game.time.now + 500;
+        bossTimer =  game.time.now + 1000;
     }
 
-    if (cursors.left.isDown){
+    if (cursors.left.isDown) {
         player.body.velocity.x = -120;
     }
     if (cursors.right.isDown){
