@@ -41,7 +41,7 @@ function preload() {
     game.load.image('orb','assets/spirit.png');
     game.load.image('shard','assets/shard.png');
     game.load.image('tiles', 'assets/grass.png');
-    game.load.image('boss','assets/boss.png');
+    game.load.image('boss','assets/nike.png');
     game.load.image('antisharded','assets/antispirit.png')
     game.load.tilemap('forrest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.spritesheet('player_sheet', 'assets/player_sheet.png', 18, 26, 4)
