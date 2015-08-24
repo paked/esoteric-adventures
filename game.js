@@ -128,7 +128,7 @@ collideEnemy = function (player, enemy) {
     }
 }
 function boss(){
-   if(score == 2){
+   if(score == 8){
        bossSpawned = true;
 
        console.log("boss initiated..");
@@ -196,7 +196,7 @@ function create() {
     space_key.onDown.add(fireShard);
 
     antiShards = game.add.physicsGroup();
-    antiShards.createMultiple(50, 'antishard');
+    antiShards.createMultiple(50, 'antisharded');
 }
 function fireShard() {
     var shard  = shards.getFirstExists(false);
