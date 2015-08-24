@@ -79,7 +79,6 @@ function Time(){
 
     console.log('Hello');
 }
-<<<<<<< HEAD
 function removeBoss(){
     clockboss -= 1;
 
@@ -92,9 +91,7 @@ function bossClock(){
     }
 
 }
-=======
 
->>>>>>> d5ad21ae588a44029877b342a50a0a90838ac23f
 addShard = function(shard,enemy){
   enemy.kill();
         console.log("killing");
