@@ -24,6 +24,7 @@ var map;
 var antiShards;
 var bossSpawned = false;
 var createboss;
+var bossTimer = 0;
 
 function preload() {
     console.log("preloading...")
@@ -90,9 +91,9 @@ function killEnemy(shard, enemy){
 
 }
 
-function killPlayerB(antiShard,player){
+function killPlayerB(antiShards,player){
     player.kill();
-    antiShard.kill;
+    antiShards.kill();
 }
 
 function killPlayer(player, enemy) {
@@ -123,7 +124,7 @@ collideEnemy = function (player, enemy) {
     }
 }
 function boss(){
-   if(score == 6){
+   if(score == 2){
        bossSpawned = true;
 
        console.log("boss initiated..");
@@ -131,8 +132,9 @@ function boss(){
        game.physics.enable(createboss, Phaser.Physics.ARCADE);
        createboss.body.collideWorldBounds = true;
        createboss.body.bounce.y = 0.05;
+       fireantiShard()
 
-       fireantiShard();
+       bossTimer = game.time.now + 500;
     }
 }
 
@@ -182,6 +184,7 @@ function create() {
     // This will scale it up to the correct resolution on mobile devices
     game.time.events.add(Phaser.Timer.SECOND*150, gameOver, this);
     game.time.events.add(Phaser.Timer.SECOND, Time, this);
+    game.time.events.add(Phaser.Timer.SECIND*2, fireantiShard, this);
     shards = game.add.physicsGroup();
     shards.enableBody = true;
     shards.setAll('body.allowGravity',false);
@@ -208,10 +211,8 @@ function fireShard() {
 }
 function fireantiShard() {
     var antiShard = antiShards.getFirstExists(false);
-    console.log(antiShard);
     if(antiShard){
         antiShard.reset(createboss.x, createboss.y, +8)
-        antiShard.body.velocity.x = 300;
         antiShard.body.allowGravity = false;
 
         // Bullets should kill themselves when they leave the world.
@@ -220,8 +221,9 @@ function fireantiShard() {
         // its x,y coordinates are outside of the world.
         antiShard.checkWorldBounds = true;
         antiShard.outOfBoundsKill = true;
-
+        game.physics.arcade.accelerateToObject(antiShard, player)
         console.log('test');
+
     }
 }
 
@@ -242,6 +244,11 @@ function update() {
     if (createboss) {
         game.physics.arcade.overlap(player, createboss, gameOver);
         game.physics.arcade.collide(createboss, platforms);
+    }
+
+    if (game.time.now > bossTimer && createboss) {
+        fireantiShard();
+        bossTimer =  game.time.now + 500;
     }
 
     if (cursors.left.isDown){
