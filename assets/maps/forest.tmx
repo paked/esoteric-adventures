@@ -3,6 +3,9 @@
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16">
   <image source="../tileset.png" width="96" height="32"/>
  </tileset>
+ <tileset firstgid="13" name="forest" tilewidth="16" tileheight="16">
+  <image source="../grass.png" width="64" height="16"/>
+ </tileset>
  <layer name="Tile Layer 1" width="60" height="25">
   <data encoding="base64" compression="zlib">
    eJzt1cEKgCAQBFDJ/v+b00MgIZkglPkezFUWdhZDAAAAYAZbSrxkf3UiZlfrVG/H7t4Y1c/WnO5gLWcf7P1byju1G0pP/pq/JHf/AJ5tAS0=
