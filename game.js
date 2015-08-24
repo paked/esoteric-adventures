@@ -40,6 +40,7 @@ function preload() {
     game.load.image('shard','assets/shard.png');
     game.load.image('tiles', 'assets/tileset.png');
     game.load.image('boss','assets/boss.png');
+    game.load.image('antisharded','assets/antispirit.png')
     game.load.tilemap('forrest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.spritesheet('player_sheet', 'assets/player_sheet.png', 18, 26, 4)
 }
@@ -90,6 +91,7 @@ addShard = function(shard,enemy){
 function killEnemy(shard, enemy){
     enemy.kill();
     shard.kill();
+    gameOver();
 
 }
 
@@ -126,7 +128,7 @@ collideEnemy = function (player, enemy) {
     }
 }
 function boss(){
-   if(score == 8){
+   if(score == 2){
        bossSpawned = true;
 
        console.log("boss initiated..");
@@ -194,7 +196,7 @@ function create() {
     space_key.onDown.add(fireShard);
 
     antiShards = game.add.physicsGroup();
-    antiShards.createMultiple(50, 'spirit');
+    antiShards.createMultiple(50, 'antishard');
 }
 function fireShard() {
     var shard  = shards.getFirstExists(false);
