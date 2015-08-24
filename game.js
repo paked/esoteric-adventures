@@ -133,7 +133,6 @@ function boss(){
        createboss.body.bounce.y = 0.05;
 
        fireantiShard();
-
     }
 }
 
@@ -190,7 +189,7 @@ function create() {
     space_key.onDown.add(fireShard);
 
     antiShards = game.add.physicsGroup();
-    antiShards.createMultiple('spirit');
+    antiShards.createMultiple(50, 'spirit');
 }
 function fireShard() {
     var shard  = shards.getFirstExists(false);
@@ -199,7 +198,6 @@ function fireShard() {
         shard.body.velocity.x = 300;
         if (player.body.velocity.x < 0) {
             shard.body.velocity.x *= -1;
-
         }
 
         shard.body.allowGravity = false;
@@ -210,10 +208,19 @@ function fireShard() {
 }
 function fireantiShard() {
     var antiShard = antiShards.getFirstExists(false);
+    console.log(antiShard);
     if(antiShard){
-        antiShard.reset(boss.x,boss.y, +8)
+        antiShard.reset(createboss.x, createboss.y, +8)
         antiShard.body.velocity.x = 300;
         antiShard.body.allowGravity = false;
+
+        // Bullets should kill themselves when they leave the world.
+        // Phaser takes care of this for me by setting this flag
+        // but you can do it yourself by killing the bullet if
+        // its x,y coordinates are outside of the world.
+        antiShard.checkWorldBounds = true;
+        antiShard.outOfBoundsKill = true;
+
         console.log('test');
     }
 }
@@ -231,8 +238,10 @@ function update() {
     game.physics.arcade.collide(shards, enemies, killEnemy);
     game.physics.arcade.overlap(shards, enemies, addShard);
     game.physics.arcade.overlap(antiShards,player,killPlayerB);
+
     if (createboss) {
         game.physics.arcade.overlap(player, createboss, gameOver);
+        game.physics.arcade.collide(createboss, platforms);
     }
 
     if (cursors.left.isDown){
