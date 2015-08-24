@@ -40,7 +40,7 @@ function preload() {
     game.load.image('spirit','assets/star.png');
     game.load.image('orb','assets/spirit.png');
     game.load.image('shard','assets/shard.png');
-    game.load.image('tiles', 'assets/tileset.png');
+    game.load.image('tiles', 'assets/grass.png');
     game.load.image('boss','assets/boss.png');
     game.load.image('antisharded','assets/antispirit.png')
     game.load.tilemap('forrest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
@@ -56,24 +56,30 @@ function collectSpirits(player, spirit){
 }
 
 function gameOver(){
+    console.log('gameover');
     var t = game.add.text(0,0, 'Game Over', style);
     t.anchor.set(0.5);
     t.x = game.width/2;
     t.y = game.height/2;
     player.kill();
-    game.time.events.add(Phaser.Timer.SECOND*1, gameReload, this);
+
+    window.setTimeout(gameReload, 1000);
 }
 
 function gameReload(){
+    console.log("bye");
     location.reload()
 }
+
 function Time(){
     timertext.text = 'Timer: ' + timercount;
     timercount -= 1;
     console.log('Hello')
-        game.time.events.add(Phaser.Timer.SECOND, Time, this);
+    game.time.events.add(Phaser.Timer.SECOND, Time, this);
 
+    console.log('Hello');
 }
+<<<<<<< HEAD
 function removeBoss(){
     clockboss -= 1;
 
@@ -86,6 +92,9 @@ function bossClock(){
     }
 
 }
+=======
+
+>>>>>>> d5ad21ae588a44029877b342a50a0a90838ac23f
 addShard = function(shard,enemy){
   enemy.kill();
         console.log("killing");
@@ -121,7 +130,7 @@ function killPlayer(player, enemy) {
     t.anchor.set(0.5);
     t.x = game.width/2;
     t.y = game.height/2;
-   game.time.events.add(Phaser.Timer.SECOND*2, gameReload, this);
+    gameOver();
    score = 0;
 }
 collideEnemy = function (player, enemy) {
@@ -206,8 +215,9 @@ function create() {
     // remember to call: `MYASSET.scale.setTo(scaleRatio, scaleRatio);`
     // This will scale it up to the correct resolution on mobile devices
     game.time.events.add(Phaser.Timer.SECOND*150, gameOver, this);
-    game.time.events.add(Phaser.Timer.SECOND, Time, this);
+    game.time.events.loop(Phaser.Timer.SECOND, Time, this);
     game.time.events.add(Phaser.Timer.SECIND*2, fireantiShard, this);
+
     shards = game.add.physicsGroup();
     shards.enableBody = true;
     shards.setAll('body.allowGravity',false);
@@ -296,7 +306,6 @@ function update() {
     }
 
    
-    console.log("updating...")
         if(game.time.now >= moveTime ){
             enemies.multiplyAll('body.velocity.x',-1)
 
