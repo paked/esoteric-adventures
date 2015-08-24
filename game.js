@@ -91,13 +91,13 @@ addShard = function(shard,enemy){
 function killEnemy(shard, enemy){
     enemy.kill();
     shard.kill();
-    gameOver();
 
 }
 
 function killPlayerB(antiShards,player){
     player.kill();
     antiShards.kill();
+    gameOver();
 }
 
 function killPlayer(player, enemy) {
