@@ -79,8 +79,9 @@ function Time(){
 
     console.log('Hello');
 }
-function removeBoss(){
+function removeBoss(shard){
     clockboss -= 1;
+    shard.kill();
 
 }
 function bossClock(){
