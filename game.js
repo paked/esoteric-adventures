@@ -38,7 +38,7 @@ function preload() {
     game.load.image('spirit','assets/star.png');
     game.load.image('orb','assets/spirit.png');
     game.load.image('shard','assets/shard.png');
-    game.load.image('tiles', 'assets/tileset.png');
+    game.load.image('tiles', 'assets/grass.png');
     game.load.image('boss','assets/boss.png');
     game.load.image('antisharded','assets/antispirit.png')
     game.load.tilemap('forrest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
@@ -68,7 +68,7 @@ function Time(){
     timertext.text = 'Timer: ' + timercount;
     timercount -= 1;
     console.log('Hello')
-        game.time.events.add(Phaser.Timer.SECOND, Time, this);
+    game.time.events.add(Phaser.Timer.SECOND, Time, this);
 
 }
 addShard = function(shard,enemy){
