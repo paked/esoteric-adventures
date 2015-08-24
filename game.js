@@ -124,7 +124,7 @@ collideEnemy = function (player, enemy) {
     }
 }
 function boss(){
-   if(score == 2){
+   if(score == 8){
        bossSpawned = true;
 
        console.log("boss initiated..");
