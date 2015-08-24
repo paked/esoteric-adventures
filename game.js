@@ -10,6 +10,7 @@ if (windowWidth > 800 && windowHeight > 600) {
 var game = new Phaser.Game(windowWidth, windowHeight, Phaser.CANVAS, 'game', { preload: preload, create: create, update: update });
 var player;
 var cursors;
+var forest;
 var enemy;
 var platforms;
 var moveTime = 0;
@@ -33,12 +34,13 @@ function preload() {
     game.load.audio('shoot', 'assets/shoot.mp3')
     game.load.image('enemy','assets/enemy.png');
     game.load.image('platform', 'assets/platform.png');
+    game.load.image('Background_Forest', 'assets/forest.png');
     game.load.image('spirit','assets/star.png');
     game.load.image('orb','assets/spirit.png');
     game.load.image('shard','assets/shard.png');
     game.load.image('tiles', 'assets/tileset.png');
     game.load.image('boss','assets/boss.png');
-    game.load.tilemap('forest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('forrest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.spritesheet('player_sheet', 'assets/player_sheet.png', 18, 26, 4)
 }
 function collectSpirits(player, spirit){
@@ -141,11 +143,11 @@ function boss(){
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.physics.arcade.gravity.y = 625;
-    map = game.add.tilemap('forest');
+    map = game.add.tilemap('forrest');
     map.addTilesetImage('tileset', 'tiles');
     map.setCollisionBetween(1, 4);
     game.world.setBounds(0, 0, map.width * map.tileWidth, map.height * map.tileHeight);
-
+    forest = game.add.tileSprite(0, 0, map.width * map.tileWidth, map.height * map.tileHeight, 'Background_Forest');
     var music = game.add.audio('Music');
     music.loop = true;
     music.play();
@@ -231,6 +233,7 @@ function fireantiShard() {
 
 function update() {
     player.body.velocity.x = 0;
+    forest.tilePosition.x =0.5;
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(enemies, platforms);
     game.physics.arcade.collide(spirit, platforms);
