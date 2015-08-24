@@ -14,7 +14,8 @@ var forest;
 var enemy;
 var platforms;
 var moveTime = 0;
-var style = {font: "65px Arial", fill: "#fff", align:"center"};
+var style = {font: "65px Open Sans, serif", fill: "#fff", align:"center"};
+var styleleft = {font:"30px Open Sans serif",fill:' #fff'};
 var timertext;
 var timercount = 150;
 var score = 0;
@@ -45,7 +46,7 @@ function preload() {
     game.load.image('antisharded','assets/antispirit.png')
     game.load.tilemap('forrest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.spritesheet('player_sheet', 'assets/player_sheet.png', 18, 26, 4)
-//game.load.spritesheet('enemy_sheet', 'assets/enemys.png', 14, 16, 3)
+    game.load.spritesheet('enemy_sheet', 'assets/lowlevel.png', 14, 16, 3)
     game.load.image('enemy', 'assets/enemy.png');
     
 }
@@ -166,7 +167,7 @@ function boss(){
        createboss.body.collideWorldBounds = true;
        createboss.body.bounce.y = 0.05;
        fireantiShard();
-       bosstext = game.add.text(32,92,'Boss: ' + clockboss);
+       bosstext = game.add.text(32,92,'Boss: ' + clockboss,styleleft);
        bosstext.fixedToCamera = true;
 
        bossTimer = game.time.now + 500;
@@ -187,9 +188,9 @@ function create() {
     music.loop = true;
     music.play();
     platforms = map.createLayer('Tile Layer 1');
-    timertext = game.add.text(32,32, 'Timer: ' + timercount);
+    timertext = game.add.text(32,32, 'Timer: ' + timercount, styleleft);
     timertext.fixedToCamera = true;
-    spirittext = game.add.text(32, 62, 'Spirits: ' + score)
+    spirittext = game.add.text(32, 62, 'Spirits: ' + score, styleleft)
     spirittext.fixedToCamera = true;
     player = game.add.sprite(0, 0, 'player_sheet');
     var walk = player.animations.add('walk');
