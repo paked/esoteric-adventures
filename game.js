@@ -34,7 +34,6 @@ function preload() {
     game.load.audio('Music', 'assets/eso.mp3')
     game.load.audio('Jump', 'assets/jump.mp3')
     game.load.audio('shoot', 'assets/shoot.mp3')
-    game.load.image('enemy','assets/enemy.png');
     game.load.image('platform', 'assets/platform.png');
     game.load.image('Background_Forest', 'assets/forest.png');
     game.load.image('spirit','assets/star.png');
@@ -45,6 +44,7 @@ function preload() {
     game.load.image('antisharded','assets/antispirit.png')
     game.load.tilemap('forrest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.spritesheet('player_sheet', 'assets/player_sheet.png', 18, 26, 4)
+    game.load.spritesheet('enemy', 'assets/enemys.png', 21, 32, 3 )
     
 }
 function collectSpirits(player, spirit){
@@ -190,7 +190,8 @@ function create() {
     player.body.collideWorldBounds = true;
     player.animations.add('walk', [1, 2, 3], 5, true);
     player.animations.play('walk');
-
+    enemy.animations.add('evil_walk',[1, 2, 3], 5, true);
+    enemy.animations.play('evil_walk');
     game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER);
 
     moveTime = game.time.now + 750;
