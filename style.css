@@ -10,3 +10,8 @@ text-align:center;
 margin:auto;
 padding:auto;
 }
+.fontPreload{
+   position:absolute;
+  left:-100px;
+  font-family: 'Open Sans', sans-serif;          
+ }
