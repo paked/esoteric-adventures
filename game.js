@@ -28,6 +28,7 @@ var createboss;
 var bossTimer = 0;
 var bosstext;
 var clockboss = 5;
+var winningText;
 
 function preload() {
     console.log("preloading...")
@@ -81,7 +82,6 @@ function Time(){
 }
 function removeBoss(shard, boss){
     clockboss -= 1;
-    shard.kill();
 
     boss.kill();
 }
@@ -91,6 +91,11 @@ function bossClock(){
     if (clockboss == 0) {
         console.log("KILLING")
         createboss.kill();
+
+        winningText = game.add.text(0, 0, "you win, congrats!", style);
+        winningText.anchor.set(0.5);
+        winningText.x = game.width/2;
+        winningText.y = game.height/2;
     }
 }
 
