@@ -64,13 +64,13 @@ function gameOver(){
 function gameReload(){
     location.reload()
 }
+
 function Time(){
     timertext.text = 'Timer: ' + timercount;
     timercount -= 1;
-    console.log('Hello')
-        game.time.events.add(Phaser.Timer.SECOND, Time, this);
-
+    console.log('Hello');
 }
+
 addShard = function(shard,enemy){
   enemy.kill();
         console.log("killing");
@@ -187,8 +187,9 @@ function create() {
     // remember to call: `MYASSET.scale.setTo(scaleRatio, scaleRatio);`
     // This will scale it up to the correct resolution on mobile devices
     game.time.events.add(Phaser.Timer.SECOND*150, gameOver, this);
-    game.time.events.add(Phaser.Timer.SECOND, Time, this);
+    game.time.events.loop(Phaser.Timer.SECOND, Time, this);
     game.time.events.add(Phaser.Timer.SECIND*2, fireantiShard, this);
+
     shards = game.add.physicsGroup();
     shards.enableBody = true;
     shards.setAll('body.allowGravity',false);
