@@ -7,4 +7,6 @@ font-family: "Comic Sans MS", cursive, sans-serif;
 }
 .game {
 text-align:center;
+margin:auto;
+padding:auto;
 }
