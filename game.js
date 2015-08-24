@@ -26,6 +26,8 @@ var antiShards;
 var bossSpawned = false;
 var createboss;
 var bossTimer = 0;
+var bosstext;
+var clockboss = 5;
 
 function preload() {
     console.log("preloading...")
@@ -43,6 +45,7 @@ function preload() {
     game.load.image('antisharded','assets/antispirit.png')
     game.load.tilemap('forrest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.spritesheet('player_sheet', 'assets/player_sheet.png', 18, 26, 4)
+    
 }
 function collectSpirits(player, spirit){
     score += 1;
@@ -69,6 +72,18 @@ function Time(){
     timercount -= 1;
     console.log('Hello')
         game.time.events.add(Phaser.Timer.SECOND, Time, this);
+
+}
+function removeBoss(){
+    clockboss -= 1;
+
+}
+function bossClock(){
+    bosstext.text = 'Boss: ' + clockboss;
+    if (clockboss == 0) {
+        createboss.kill();
+
+    }
 
 }
 addShard = function(shard,enemy){
@@ -128,7 +143,7 @@ collideEnemy = function (player, enemy) {
     }
 }
 function boss(){
-   if(score == 8){
+   if(score == 2){
        bossSpawned = true;
 
        console.log("boss initiated..");
@@ -136,9 +151,13 @@ function boss(){
        game.physics.enable(createboss, Phaser.Physics.ARCADE);
        createboss.body.collideWorldBounds = true;
        createboss.body.bounce.y = 0.05;
-       fireantiShard()
+       fireantiShard();
+       bosstext = game.add.text(32,92,'Boss: ' + clockboss);
+       bosstext.fixedToCamera = true;
 
        bossTimer = game.time.now + 500;
+       bossClock();
+
     }
 }
 
@@ -245,10 +264,15 @@ function update() {
     game.physics.arcade.collide(shards, enemies, killEnemy);
     game.physics.arcade.overlap(shards, enemies, addShard);
     game.physics.arcade.overlap(antiShards,player,killPlayerB);
+    
 
     if (createboss) {
         game.physics.arcade.overlap(player, createboss, gameOver);
         game.physics.arcade.collide(createboss, platforms);
+        game.physics.arcade.overlap(shards, createboss,removeBoss);
+        bossClock();
+
+
     }
 
     if (game.time.now > bossTimer && createboss) {
@@ -270,6 +294,7 @@ function update() {
     if (!bossSpawned) {
         boss();
     }
+
    
     console.log("updating...")
         if(game.time.now >= moveTime ){
