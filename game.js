@@ -53,15 +53,18 @@ function collectSpirits(player, spirit){
 }
 
 function gameOver(){
+    console.log('gameover');
     var t = game.add.text(0,0, 'Game Over', style);
     t.anchor.set(0.5);
     t.x = game.width/2;
     t.y = game.height/2;
     player.kill();
-    game.time.events.add(Phaser.Timer.SECOND*1, gameReload, this);
+
+    window.setTimeout(gameReload, 1000);
 }
 
 function gameReload(){
+    console.log("bye");
     location.reload()
 }
 
@@ -106,7 +109,7 @@ function killPlayer(player, enemy) {
     t.anchor.set(0.5);
     t.x = game.width/2;
     t.y = game.height/2;
-   game.time.events.add(Phaser.Timer.SECOND*2, gameReload, this);
+    gameOver();
    score = 0;
 }
 collideEnemy = function (player, enemy) {
@@ -272,7 +275,6 @@ function update() {
         boss();
     }
    
-    console.log("updating...")
         if(game.time.now >= moveTime ){
             enemies.multiplyAll('body.velocity.x',-1)
 
