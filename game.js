@@ -93,7 +93,7 @@ function bossClock(){
         console.log("KILLING")
         createboss.kill();
 
-        winningText = game.add.text(0, 0, "you win, congrats! \nYou freed the sweatshop workers", style);
+        winningText = game.add.text(0, 0, "you win, congrats! \nYou freed \nthe sweatshop workers", style);
         winningText.anchor.set(0.5);
         winningText.x = game.width/2;
         winningText.y = game.height/2;
