@@ -45,7 +45,8 @@ function preload() {
     game.load.image('antisharded','assets/antispirit.png')
     game.load.tilemap('forrest', 'assets/maps/forest.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.spritesheet('player_sheet', 'assets/player_sheet.png', 18, 26, 4)
-    game.load.spritesheet('enemy', 'assets/enemys.png', 21, 32, 3 )
+//game.load.spritesheet('enemy_sheet', 'assets/enemys.png', 14, 16, 3)
+    game.load.image('enemy', 'assets/enemy.png');
     
 }
 function collectSpirits(player, spirit){
@@ -197,8 +198,7 @@ function create() {
     player.body.collideWorldBounds = true;
     player.animations.add('walk', [1, 2, 3], 5, true);
     player.animations.play('walk');
-    enemy.animations.add('evil_walk',[1, 2, 3], 5, true);
-    enemy.animations.play('evil_walk');
+
     game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER);
 
     moveTime = game.time.now + 750;
@@ -209,6 +209,7 @@ function create() {
     enemies.create(850,250, 'enemy')
     enemies.setAll('body.velocity.x', 100);
     enemies.setAll('body.collideWorldBounds', true);
+
     spirit = this.add.physicsGroup();
     spirit.setAll('body.collideWorldBounds',true);
     spirit.setAll('body.velocity.y',1000);
