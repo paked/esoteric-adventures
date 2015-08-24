@@ -138,7 +138,7 @@ function boss(){
 
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.physics.arcade.gravity.y = 500;
+    game.physics.arcade.gravity.y = 625;
     map = game.add.tilemap('forest');
     map.addTilesetImage('tileset', 'tiles');
     map.setCollisionBetween(1, 4);
