@@ -1,13 +1,13 @@
-var windowWidth = window.innerWidth * window.devicePixelRatio;
+/*var windowWidth = window.innerWidth * window.devicePixelRatio;
 var windowHeight = window.innerHeight * window.devicePixelRatio;
 var scaleRatio = window.devicePixelRatio / 3;
 
 if (windowWidth > 800 && windowHeight > 600) {
     windowWidth = 800;
     windowHeight = 400;
-}
+}*/
 
-var game = new Phaser.Game(windowWidth, windowHeight, Phaser.CANVAS, 'game', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(800, 400, Phaser.CANVAS, 'game', { preload: preload, create: create, update: update });
 var player;
 var cursors;
 var forest;
